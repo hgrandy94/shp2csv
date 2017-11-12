@@ -4,14 +4,14 @@ shpfile = sys.argv[1]
 csvfile = sys.argv[2]
 
 #Open files
-Csvfile = open(csvfile,'wb')
-Ds = ogr.Open(shpfile)
-Lyr = ds.GetLayer()
+csvfile = open(csvfile,'wb')
+ds = ogr.Open(shpfile)
+lyr = ds.GetLayer()
 
 #Get field names
-Dfn = lyr.GetLayerDefn()
-Nfields = dfn.GetFieldCount()
-Fields = []
+dfn = lyr.GetLayerDefn()
+nfields = dfn.GetFieldCount()
+fields = []
 for i in range(nfields):
     fields.append(dfn.GetFieldDefn(i).GetName())
 fields.append('kmlgeometry')
@@ -21,7 +21,7 @@ except:csvfile.write(','.join(fields)+'\n')
 
 # Write attributes and kml out to csv
 for feat in lyr:
-    attributes = feat.items()
+    attributes=feat.items()
     geom = feat.GetGeometryRef()
     attributes['kmlgeometry']=geom.ExportToKML()
     csvwriter.writerow(attributes)
